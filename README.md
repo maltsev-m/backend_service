@@ -16,16 +16,16 @@ Python, FastAPI, SQLAlchemy, Pydantic
 endpoint возвращает валидный ответ по созданной схеме.
 
 ### Рабочие файлы сервиса:
-app.py - файл приложения с endpoint-ами.
+**app.py** - файл приложения с endpoint-ами.
 
-table_user.py - ORM таблица пользователей
+**table_user.py** - ORM таблица пользователей
 
-table_post.py - ORM таблица постов социальной сети
+**table_post.py** - ORM таблица постов социальной сети
 
-table_feed.py - ORM таблица взаимодействий пользователей и постов
+**table_feed.py** - ORM таблица взаимодействий пользователей и постов
 
-database.py - скрипт с подключение к базе данных
+**database.py** - скрипт с подключение к базе данных
 
-schemas.py - модели валидации pydentic
+**schemas.py** - модели валидации pydentic
 
-requirements.txt - необходимые библиотеки
+**requirements.txt** - необходимые библиотеки
