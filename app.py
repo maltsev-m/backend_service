@@ -13,12 +13,15 @@ from schema import UserGet, PostGet, FeedGet
 
 app = FastAPI()
 
+
 def get_db():
     with SessionLocal() as db:
         return db
 
+
 def limit(limit: int = 10):
     return limit
+
 
 @app.get("/user/{id}", response_model=UserGet)
 def get_user(id: int, db: Session = Depends(get_db)):
@@ -26,6 +29,7 @@ def get_user(id: int, db: Session = Depends(get_db)):
     if result is None:
         raise HTTPException(status_code=404)
     return result
+
 
 @app.get("/user/{id}/feed", response_model=List[FeedGet])
 def get_user_feed(id: int, limit: int = Depends(limit), db: Session = Depends(get_db)):
@@ -37,12 +41,14 @@ def get_user_feed(id: int, limit: int = Depends(limit), db: Session = Depends(ge
     ).scalars().all()
     return result
 
+
 @app.get("/post/{id}", response_model=PostGet)
 def det_post(id: int, db: Session = Depends(get_db)):
     result = db.query(Post).filter(Post.id == id).one_or_none()
     if result is None:
         raise HTTPException(status_code=404)
     return result
+
 
 @app.get("/post/{id}/feed", response_model=List[FeedGet])
 def get_user_feed(id: int, limit: int = Depends(limit), db: Session = Depends(get_db)):
@@ -55,17 +61,20 @@ def get_user_feed(id: int, limit: int = Depends(limit), db: Session = Depends(ge
     )
     return result
 
+
 @app.get("/post/recommendations/", response_model=List[PostGet])
 def get_post_recom(id: int, limit: int = Depends(limit), db: Session = Depends(get_db)):
     result = db.execute(
-        select(Post.id, Post.text, Post.topic, func.count(Feed.post_id).label("count"))
+        select(Post.id, Post.text, Post.topic,
+               func.count(Feed.post_id).label("count"))
         .join(Post)
         .where(Feed.action == "like")
         .group_by(Post.id)
         .order_by(desc("count"))
         .limit(limit)
     ).all()
-    return(result)
+    return (result)
+
 
 if __name__ == '__main__':
     uvicorn.run(app)

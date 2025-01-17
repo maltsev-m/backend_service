@@ -5,6 +5,7 @@ from database import Base
 from table_post import Post
 from table_user import User
 
+
 class Feed(Base):
     __tablename__ = "feed_action"
 
